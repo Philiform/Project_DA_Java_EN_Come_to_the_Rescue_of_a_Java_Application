@@ -1,43 +1,63 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
+	private static ISymptomReader symptomsReader;
 	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
+	private static List<String> symptomsList = new ArrayList<>();
+	private static SortedMap<String, Integer> symptomsSortedCounter = new TreeMap<>();
+	
+	public static void main(String args[]) {
+		readSymptoms("symptoms.txt");
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
-			}
-
-			line = reader.readLine();	// get another symptom
-		}
+		symptomsSortedCounter = countSymptoms(symptomsList);
 		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+		System.out.println("CLASS: AnalyticsCounter -> FONCTION: Main");
+		for(Map.Entry<String, Integer> element : symptomsSortedCounter.entrySet()) {
+			System.out.println("\t\t" + element.getValue() + " " + element.getKey());			}
+		System.out.println("\n");
+
+		writeSymptoms("results.out", symptomsSortedCounter);
+	}
+	
+	public static void readSymptoms(String filepath) {
+		symptomsReader = new ReadSymptomDataFromFile(filepath);
+		symptomsList = symptomsReader.GetSymptoms();
+	}
+	
+	public static SortedMap<String, Integer> countSymptoms(List<String> symptomsList) {
+		SortedMap<String, Integer> symptomsSortedCounter = new TreeMap<>();
+
+		if(!symptomsList.isEmpty()) {
+			for(int i = 0; i < symptomsList.size(); i++) {
+				symptomsSortedCounter.putIfAbsent(symptomsList.get(i), 0);
+				symptomsSortedCounter.put(symptomsList.get(i), symptomsSortedCounter.get(symptomsList.get(i)) + 1);
+			}
+		}
+		return symptomsSortedCounter;
+	}
+	
+	public static void writeSymptoms(String filepath, SortedMap<String, Integer> symptomsSortedCounter) {
+		if (!filepath.isEmpty() && !symptomsSortedCounter.isEmpty()) {
+			try {
+		        BufferedWriter writer = new BufferedWriter (new FileWriter(filepath));
+
+				for(Map.Entry<String, Integer> element : symptomsSortedCounter.entrySet()) {
+					writer.write(element.getKey() + "=" + element.getValue().toString() + "\n");
+					System.out.println("\t" + element.getValue() + " " + element.getKey());
+				}
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
