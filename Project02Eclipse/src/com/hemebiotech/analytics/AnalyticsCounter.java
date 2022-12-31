@@ -2,7 +2,6 @@ package com.hemebiotech.analytics;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -14,27 +13,34 @@ import com.hemebiotech.analytics.interfaces.ISymptomReader;
 import com.hemebiotech.analytics.interfaces.ISymptomWriter;
 
 public class AnalyticsCounter {
-	private static ISymptomReader symptomsReader;
-	private static ISymptomCounter symptomsCounter;
-	private static ISymptomWriter symptomsWriter;
+	private ISymptomReader symptomsReader;
+	private ISymptomCounter symptomsCounter;
+	private ISymptomWriter symptomsWriter;
 	
-	private static List<String> symptomsList = new ArrayList<>();
-	private static SortedMap<String, Integer> symptomsSortedCounter = new TreeMap<>();
-	
-	public static void main(String args[]) {
-		symptomsReader = new ReadSymptomDataFromFile("symptoms.txt");
-		symptomsCounter = new CounterSymptoms();
-		symptomsWriter = new WriteSymptomDataToFile("results.out");
-		
-		symptomsList = symptomsReader.GetSymptoms();
-		symptomsSortedCounter = symptomsCounter.countSymptoms(symptomsList);
-		
-		System.out.println("CLASS: AnalyticsCounter -> FONCTION: Main");
-		for(Map.Entry<String, Integer> element : symptomsSortedCounter.entrySet()) {
-			System.out.println("\t\t" + element.getValue() + " " + element.getKey());
-			}
-		System.out.println("\n");
+	private List<String> symptomsList = new ArrayList<>();
+	private SortedMap<String, Integer> symptomsSortedCounter = new TreeMap<>();
 
+	AnalyticsCounter() {
+		symptomsReader = new ReadSymptomDataFromFile();
+		symptomsCounter = new CounterSymptoms();
+		symptomsWriter = new WriteSymptomDataToFile();
+	}
+	
+	public void run() {
+		symptomsList = symptomsReader.getSymptoms();
+		symptomsSortedCounter = symptomsCounter.countSymptoms(symptomsList);
 		symptomsWriter.setSymptoms(symptomsSortedCounter);
+	}
+
+	public void setSymptomsReader(ISymptomReader symptomsReader) {
+		this.symptomsReader = symptomsReader;
+	}
+
+	public void setSymptomsCounter(ISymptomCounter symptomsCounter) {
+		this.symptomsCounter = symptomsCounter;
+	}
+
+	public void setSymptomsWriter(ISymptomWriter symptomsWriter) {
+		this.symptomsWriter = symptomsWriter;
 	}
 }

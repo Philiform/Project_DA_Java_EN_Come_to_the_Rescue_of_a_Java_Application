@@ -25,15 +25,15 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 		this.filepath = filepath;
 	}
 	
+	public ReadSymptomDataFromFile () {
+	}
+	
 	@Override
-	public List<String> GetSymptoms() {
+	public List<String> getSymptoms() {
 		ArrayList<String> result = new ArrayList<String>();
 		
 		if (filepath != null) {
-			BufferedReader reader = null;
-			
-			try {
-				reader = new BufferedReader (new FileReader(filepath));
+			try (BufferedReader reader = new BufferedReader (new FileReader(filepath))) {
 				String line = reader.readLine();
 				
 				while (line != null) {
@@ -42,20 +42,16 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				}
 			} catch (FileNotFoundException e) {
 				System.out.println("ERROR: file '" + this.filepath + "' not find");
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
-				if(reader != null) {
-					try {
-						reader.close();
-					} catch (IOException e) {
-					}
-				}
 			}
 		}
 		
 		return result;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
 
 }

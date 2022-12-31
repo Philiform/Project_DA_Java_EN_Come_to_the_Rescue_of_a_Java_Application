@@ -15,29 +15,25 @@ public class WriteSymptomDataToFile implements ISymptomWriter{
 		this.filepath = filepath;
 	}
 	
+	public WriteSymptomDataToFile() {
+	}
+	
 	@Override
 	public void setSymptoms(SortedMap<String, Integer> symptomsSortedCounter) {
 		if (!filepath.isEmpty() && !symptomsSortedCounter.isEmpty()) {
-			BufferedWriter writer = null;
-			try {
-		        writer = new BufferedWriter (new FileWriter(filepath));
-
+			try (BufferedWriter writer = new BufferedWriter (new FileWriter(filepath))) {
 				for(Map.Entry<String, Integer> element : symptomsSortedCounter.entrySet()) {
 					writer.write(element.getKey() + "=" + element.getValue().toString() + "\n");
-					System.out.println("\t" + element.getValue() + " " + element.getKey());
 				}
 				writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
-				if(writer != null) {
-					try {
-						writer.close();
-					} catch (IOException e) {
-					}
-				}
 			}
 		}
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
 
 }
