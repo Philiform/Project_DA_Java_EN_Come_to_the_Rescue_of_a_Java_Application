@@ -12,6 +12,11 @@ import com.hemebiotech.analytics.interfaces.ISymptomCounter;
 import com.hemebiotech.analytics.interfaces.ISymptomReader;
 import com.hemebiotech.analytics.interfaces.ISymptomWriter;
 
+/**
+ * utilise les méthodes pour récupérer les symptômes, les trier et
+ * les compter, et les enregistrer
+ * 
+ */
 public class AnalyticsCounter {
 	private ISymptomReader symptomsReader;
 	private ISymptomCounter symptomsCounter;
@@ -26,6 +31,11 @@ public class AnalyticsCounter {
 		symptomsWriter = new WriteSymptomDataToFile();
 	}
 	
+	/**
+	 * fonction principale pour récupérer les symptômes, les trier et
+	 * les compter, et les enregistrer
+	 * 
+	 */
 	public void run() {
 		symptomsList = symptomsReader.getSymptoms();
 		symptomsSortedCounter = symptomsCounter.countSymptoms(symptomsList);

@@ -10,7 +10,8 @@ import java.util.List;
 import com.hemebiotech.analytics.interfaces.ISymptomReader;
 
 /**
- * Simple brute force implementation
+ * Implémentation de l'interface avec l'ajout d'une méthode pour choisir
+ * le fichier source à lire
  *
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
@@ -19,7 +20,8 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	
 	/**
 	 * 
-	 * @param filepath a full or partial path to file with symptom strings in it, one per line
+	 * @param filepath a full or partial path to file with symptom strings in it,
+	 * one per line
 	 */
 	public ReadSymptomDataFromFile (String filepath) {
 		this.filepath = filepath;
@@ -50,6 +52,11 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param filepath a full or partial path to file with symptom strings in it,
+	 * one per line
+	 */
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
