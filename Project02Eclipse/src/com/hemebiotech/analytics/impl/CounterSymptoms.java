@@ -1,8 +1,10 @@
-package com.hemebiotech.analytics;
+package com.hemebiotech.analytics.impl;
 
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import com.hemebiotech.analytics.interfaces.ISymptomCounter;
 
 public class CounterSymptoms implements ISymptomCounter {
 	

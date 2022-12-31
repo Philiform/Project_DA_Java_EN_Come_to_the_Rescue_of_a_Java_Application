@@ -1,10 +1,12 @@
-package com.hemebiotech.analytics;
+package com.hemebiotech.analytics.impl;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.SortedMap;
+
+import com.hemebiotech.analytics.interfaces.ISymptomWriter;
 
 public class WriteSymptomDataToFile implements ISymptomWriter{
 	private String filepath;

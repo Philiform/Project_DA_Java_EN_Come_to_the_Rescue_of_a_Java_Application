@@ -6,6 +6,13 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.hemebiotech.analytics.impl.CounterSymptoms;
+import com.hemebiotech.analytics.impl.ReadSymptomDataFromFile;
+import com.hemebiotech.analytics.impl.WriteSymptomDataToFile;
+import com.hemebiotech.analytics.interfaces.ISymptomCounter;
+import com.hemebiotech.analytics.interfaces.ISymptomReader;
+import com.hemebiotech.analytics.interfaces.ISymptomWriter;
+
 public class AnalyticsCounter {
 	private static ISymptomReader symptomsReader;
 	private static ISymptomCounter symptomsCounter;
